@@ -240,12 +240,12 @@ function renderList(){
             展區 / 專區
             <div style="display:flex;align-items:center;gap:10px;">
               <label style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:400;color:var(--gray);text-transform:none;letter-spacing:0;cursor:pointer;">
-                <input type="checkbox" id="chkZone-${i}" ${t.showZone?'checked':''} onchange="upd(${i},'showZone',this.checked)"> 顯示此欄
+                <input type="checkbox" id="chkZone-${i}" ${t.showZone?'checked':''} onchange="upd(${i},'showZone',this.checked);toggleSection('zone-body-${i}',this.checked)"> 顯示此欄
               </label>
               <button class="btn btn-sm btn-outline" onclick="addItem(${i},'zones')">＋ 新增</button>
             </div>
           </div>
-          <div id="zone-body-${i}" style="${t.showZone?'':'opacity:0.35;pointer-events:none;'}">
+          <div id="zone-body-${i}" style="${t.showZone?'':'display:none;'}">
             <div class="item-col-labels"><span>中文名稱</span><span>English Name</span><span>URL（可留空）</span><span></span></div>
             <div id="zones-${i}">${renderRows(i,'zones')}</div>
           </div>
@@ -256,12 +256,12 @@ function renderList(){
             論壇議題
             <div style="display:flex;align-items:center;gap:10px;">
               <label style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:400;color:var(--gray);text-transform:none;letter-spacing:0;cursor:pointer;">
-                <input type="checkbox" id="chkForum-${i}" ${t.showForum?'checked':''} onchange="upd(${i},'showForum',this.checked)"> 顯示此欄
+                <input type="checkbox" id="chkForum-${i}" ${t.showForum?'checked':''} onchange="upd(${i},'showForum',this.checked);toggleSection('forum-body-${i}',this.checked)"> 顯示此欄
               </label>
               <button class="btn btn-sm btn-outline" onclick="addItem(${i},'forums')">＋ 新增</button>
             </div>
           </div>
-          <div id="forum-body-${i}" style="${t.showForum?'':'opacity:0.35;pointer-events:none;'}">
+          <div id="forum-body-${i}" style="${t.showForum?'':'display:none;'}">
             <div class="item-col-labels"><span>中文名稱</span><span>English Name</span><span>URL（可留空）</span><span></span></div>
             <div id="forums-${i}">${renderRows(i,'forums')}</div>
           </div>
@@ -295,6 +295,10 @@ function addTheme(){
 function delT(i){if(confirm(`確定刪除「${themes[i].title_zh}」？`)){themes.splice(i,1);renderList();}}
 function moveT(i,dir){if(i+dir<0||i+dir>=themes.length)return;[themes[i],themes[i+dir]]=[themes[i+dir],themes[i]];renderList();}
 function toggleBlock(h){h.parentElement.classList.toggle('open');}
+function toggleSection(id, show){
+  const el = document.getElementById(id);
+  if(el) el.style.display = show ? '' : 'none';
+}
 let allOpen=false;
 function toggleAll(){allOpen=!allOpen;document.querySelectorAll('.theme-block').forEach(b=>b.classList.toggle('open',allOpen));}
 
