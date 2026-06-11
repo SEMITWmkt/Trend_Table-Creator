@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SEMICON 主題產生器 v4.3</title>
+<title>SEMICON 主題產生器 v4.5</title>
 <style>
 :root{
   --pu:#800080;--pu-light:#f5eef5;--pu-mid:#ddc0dd;
@@ -277,7 +277,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 <header class="app-header">
   <div class="header-brand">
     <h1>SEMICON 主題產生器</h1>
-    <span class="version-badge">v4.3</span>
+    <span class="version-badge">v4.5</span>
   </div>
   <div class="header-actions">
     <span class="save-indicator" id="saveIndicator"></span>
@@ -442,21 +442,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 // ════════════════════════════════════════════
 const DEFAULT_ICON_BASE_URL = "https://semitwmkt.github.io/Trend_Table-Creator/assets/icons/";
 const DEFAULT_ICON_FILENAMES = [
-  "01-ai-computing.jpg",
-  "02-physical-ai.jpg",
-  "03-advanced-manufacturing.jpg",
-  "04-advanced-packaging.jpg",
-  "05-silicon-photonics.jpg",
-  "06-hbm.jpg",
-  "07-autonomous-fab.jpg",
-  "08-strategic-materials.jpg",
-  "09-advanced-testing-metrology.jpg",
-  "10-quantum.jpg",
-  "11-semiconductor-cybersecurity.jpg",
-  "12-startup.jpg",
-  "13-geostrategy.jpg",
-  "14-sustainability.jpg",
-  "15-workforce-development.jpg"
+  "01-ai-computing.png",
+  "02-physical-ai.png",
+  "03-advanced-manufacturing.png",
+  "04-advanced-packaging.png",
+  "05-silicon-photonics.png",
+  "06-hbm.png",
+  "07-autonomous-fab.png",
+  "08-strategic-materials.png",
+  "09-advanced-testing-metrology.png",
+  "10-quantum.png",
+  "11-semiconductor-cybersecurity.png",
+  "12-startup.png",
+  "13-geostrategy.png",
+  "14-sustainability.png",
+  "15-workforce-development.png"
 ];
 const DEFAULT_ICON_URLS = DEFAULT_ICON_FILENAMES.map(name => DEFAULT_ICON_BASE_URL + name);
 
@@ -675,10 +675,14 @@ function applyBundledIcons(){
 function isBundledIconUrl(value, index){
   const url = (value || '').trim();
   const filename = DEFAULT_ICON_FILENAMES[index];
+  const legacyFilename = filename ? filename.replace(/\.png$/i, '.jpg') : '';
   if(!url || !filename)return false;
   return url === `assets/icons/${filename}` ||
     url.endsWith(`/assets/icons/${filename}`) ||
-    url.endsWith(`/tools/trends/assets/icons/${filename}`);
+    url.endsWith(`/tools/trends/assets/icons/${filename}`) ||
+    (legacyFilename && (url === `assets/icons/${legacyFilename}` ||
+      url.endsWith(`/assets/icons/${legacyFilename}`) ||
+      url.endsWith(`/tools/trends/assets/icons/${legacyFilename}`)));
 }
 
 function fillMissingIconsWithDefaults(){
@@ -977,17 +981,19 @@ ${sc} .st-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1p
 @media(max-width:768px){${sc} .st-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:480px){${sc} .st-grid{grid-template-columns:repeat(${mobileCols},1fr);}}
 ${sc} .st-card{position:relative;background:#fff;padding:20px 18px 40px;min-height:236px;cursor:pointer;overflow:hidden;transition:background .18s ease;outline:none;-webkit-tap-highlight-color:transparent;}
-${sc} .st-num-wrap{display:inline-flex;align-items:center;justify-content:center;width:auto;min-width:46px;height:38px;padding:0 11px;border-radius:6px;background:#f5eef5;margin-bottom:12px;transition:background .15s;font-family:var(--fd);font-size:${s(16)};font-weight:800;color:var(--pu);white-space:nowrap;letter-spacing:-0.5px;line-height:1;}
+${sc} .st-num-wrap{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;width:auto;min-width:46px;height:38px;padding:0 11px;border-radius:6px;background:#f5eef5;margin-bottom:12px;transition:background .15s;font-family:var(--fd);font-size:${s(16)};font-weight:800;color:var(--pu);white-space:nowrap;letter-spacing:-0.5px;line-height:1;}
 ${sc} .st-card:hover .st-num-wrap,${sc} .st-card.active .st-num-wrap{background:#ede0ed;}
-${sc} .st-card-icon-wrap{position:absolute;top:16px;right:16px;width:92px;height:92px;border-radius:10px;display:flex;align-items:center;justify-content:center;opacity:.2;transition:opacity .25s,transform .25s;pointer-events:none;overflow:hidden;}
-${sc} .st-card-icon-wrap img{width:100%;height:100%;object-fit:contain;object-position:center;filter:saturate(.9);}
-${sc} .st-card:hover .st-card-icon-wrap,${sc} .st-card.active .st-card-icon-wrap{opacity:.34;transform:scale(1.04);}
-${sc} .st-card-title{font-family:var(--fd);font-size:clamp(${s(14)},1.35vw,${s(17)});font-weight:800;color:var(--bk);line-height:1.16;letter-spacing:0;max-width:100%;word-break:normal;overflow-wrap:normal;hyphens:none;}
-${sc} .st-card-sub{margin-top:8px;font-size:${s(12)};color:var(--gr);line-height:1.45;max-width:100%;word-break:normal;overflow-wrap:normal;hyphens:none;}
+${sc} .st-card-icon-wrap{position:absolute;right:16px;bottom:16px;width:116px;height:116px;display:flex;align-items:center;justify-content:center;opacity:.10;transition:opacity .25s,transform .25s;pointer-events:none;overflow:hidden;z-index:0;}
+${sc} .st-card-icon-wrap img{width:100%;height:100%;object-fit:contain;object-position:center;}
+${sc} .st-card:hover .st-card-icon-wrap,${sc} .st-card.active .st-card-icon-wrap{opacity:.16;transform:scale(1.04);}
+${sc} .st-card-title{position:relative;z-index:1;font-family:var(--fd);font-size:clamp(${s(14)},1.35vw,${s(17)});font-weight:800;color:var(--bk);line-height:1.16;letter-spacing:0;max-width:100%;word-break:normal;overflow-wrap:break-word;hyphens:none;}
+${sc} .st-card-sub{position:relative;z-index:1;margin-top:8px;font-size:${s(12)};color:var(--gr);line-height:1.45;max-width:100%;word-break:normal;overflow-wrap:normal;hyphens:none;}
+${sc} .st-sub-term{white-space:nowrap;}
+${sc} .st-sub-sep{white-space:normal;}
 ${sc} .st-card-bar{position:absolute;bottom:0;left:0;right:0;height:2px;background:transparent;transition:background .25s;}
 ${sc} .st-card:hover .st-card-bar{background:rgba(0,0,0,.12);}
 ${sc} .st-card.active .st-card-bar{background:var(--pu);}
-${sc} .st-caret{position:absolute;bottom:16px;right:16px;}
+${sc} .st-caret{position:absolute;bottom:16px;right:16px;z-index:1;}
 ${sc} .st-caret svg{width:14px;height:14px;stroke:var(--gr);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s cubic-bezier(.4,0,.2,1),stroke .2s;display:block;}
 ${sc} .st-card.active .st-caret svg{transform:rotate(180deg);stroke:var(--pu);}
 ${sc} .st-drawer{grid-column:1/-1;background:#fff;overflow:hidden;max-height:0;transition:max-height .45s cubic-bezier(.4,0,.2,1);}
@@ -1025,6 +1031,17 @@ function resolvePreviewUrl(url){
   catch(e){return value;}
 }
 
+function formatSubline(sub){
+  const text = (sub || '').trim();
+  if(!text)return '';
+  const parts = text.split(/\s*·\s*/).filter(Boolean);
+  if(parts.length <= 1)return esc(text);
+  return parts.map((part, index)=>{
+    const sep = index < parts.length - 1 ? '<span class="st-sub-sep"> · </span>' : '';
+    return `<span class="st-sub-term">${esc(part)}</span>${sep}`;
+  }).join('');
+}
+
 function buildCards(lang, uid, forPreview) {
   const csText = lang==='zh'?document.getElementById('cs_zh').value:document.getElementById('cs_en').value;
   const gl1    = lang==='zh'?document.getElementById('gl1_zh').value:document.getElementById('gl1_en').value;
@@ -1050,7 +1067,7 @@ function buildCards(lang, uid, forPreview) {
 
     const iconUrl = forPreview ? resolvePreviewUrl(t.icon_url) : t.icon_url;
     const iconHtml = iconUrl
-      ? `<div class="st-card-icon-wrap"><img src="${esc(iconUrl)}" alt="${esc(title)}" loading="lazy"></div>`
+      ? `<div class="st-card-icon-wrap"><img src="${esc(iconUrl)}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`
       : '';
 
     const zoneHtml = buildDrawerList(t.zones);
@@ -1072,7 +1089,7 @@ function buildCards(lang, uid, forPreview) {
             <div class="st-num-wrap">${id}</div>
             ${iconHtml}
             <div class="st-card-title">${esc(title)}</div>
-            <div class="st-card-sub">${esc(sub)}</div>
+            <div class="st-card-sub">${formatSubline(sub)}</div>
             <div class="st-card-bar"></div>
             <span class="st-caret"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
             <div class="st-data">
@@ -1337,7 +1354,7 @@ function getWorkState(){
   return {
     schema: WORKFILE_SCHEMA,
     tool: 'Trend Table Generator',
-    version: 'v4.3',
+    version: 'v4.5',
     projectName: 'SEMICON Taiwan Trend Table',
     exportedAt: new Date().toISOString(),
     data: { themes, globals: getGlobals() }
